@@ -6,5 +6,5 @@ function loadSrc($class)
 }
 
 spl_autoload_register('loadSrc');
-$sgen = new StaticGenerator;
+$sgen = new OpboStaticGenerator;
 $sgen->run();
