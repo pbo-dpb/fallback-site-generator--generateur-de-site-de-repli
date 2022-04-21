@@ -20,6 +20,6 @@ $client = new \Aws\S3\S3Client([
     ],
 ]);
 
-
-$sgen = new OpboStaticGenerator($client);
-$sgen->run();
+collect(["GeneratePublications"])->each(function ($className) use ($client) {
+    (new $className($client))->run();
+});
