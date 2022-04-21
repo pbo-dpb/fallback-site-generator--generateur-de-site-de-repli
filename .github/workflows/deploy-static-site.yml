@@ -14,11 +14,11 @@ jobs:
     - name: Install dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Setup env variables
-        env:
-          SOURCE_S3_BUCKET: ${{ secrets.SOURCE_S3_BUCKET }}
-          OUTPUT_S3_BUCKET: ${{ secrets.OUTPUT_S3_BUCKET }}
-          #OUTPUT_S3_ID: ${{ secrets.OUTPUT_S3_ID }}
-          #OUTPUT_S3_KEY: ${{ secrets.OUTPUT_S3_KEY }}
+      env:
+        SOURCE_S3_BUCKET: ${{ secrets.SOURCE_S3_BUCKET }}
+        OUTPUT_S3_BUCKET: ${{ secrets.OUTPUT_S3_BUCKET }}
+        #OUTPUT_S3_ID: ${{ secrets.OUTPUT_S3_ID }}
+        #OUTPUT_S3_KEY: ${{ secrets.OUTPUT_S3_KEY }}
       run: echo -e  'SOURCE_S3_BUCKET=${{ secrets.SOURCE_S3_BUCKET }}\nOUTPUT_S3_BUCKET=${{ secrets.OUTPUT_S3_BUCKET }}' > $GITHUB_WORKSPACE/.env
     - name: Run script
       run: php run.php
