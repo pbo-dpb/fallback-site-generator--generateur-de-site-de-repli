@@ -1,1 +1,5 @@
-Hello, {{ name }}.
+{% if language == 'fr' %}
+{{ publication.title_fr }}
+{% else %}
+{{ publication.title_en }}
+{% endif %}

@@ -6,5 +6,16 @@ function loadSrc($class)
 }
 
 spl_autoload_register('loadSrc');
-$sgen = new OpboStaticGenerator;
+
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->safeLoad();
+
+
+
+$sourceClient = new \Aws\S3\S3Client([
+    'version' => 'latest',
+    'region' => 'ca-central-1'
+]);
+
+$sgen = new OpboStaticGenerator($sourceClient);
 $sgen->run();
