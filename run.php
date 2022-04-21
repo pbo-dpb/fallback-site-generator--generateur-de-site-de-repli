@@ -12,10 +12,15 @@ $dotenv->safeLoad();
 
 
 
-$sourceClient = new \Aws\S3\S3Client([
+$client = new \Aws\S3\S3Client([
     'version' => 'latest',
-    'region' => 'ca-central-1'
+    'region' => 'ca-central-1',
+    'credentials' => [
+        'key'    => $_ENV['OUTPUT_S3_ID'],
+        'secret' => $_ENV['OUTPUT_S3_KEY'],
+    ],
 ]);
 
-$sgen = new OpboStaticGenerator($sourceClient);
+
+$sgen = new OpboStaticGenerator($client);
 $sgen->run();

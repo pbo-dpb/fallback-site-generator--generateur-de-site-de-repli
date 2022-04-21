@@ -5,7 +5,7 @@ class OpboStaticGenerator
 {
     protected $twig, $strings;
 
-    function __construct(public \Aws\S3\S3Client $sourceClient)
+    function __construct(public \Aws\S3\S3Client $s3Client)
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../twig');
         $this->twig = new \Twig\Environment($loader);
@@ -14,18 +14,23 @@ class OpboStaticGenerator
 
     protected function saveStaticHtmlFile(string $path, string $payload)
     {
-        dd($payload);
+        $this->s3Client->putObject([
+            'Bucket' => $_ENV['OUTPUT_S3_BUCKET'],
+            'Key' => $path,
+            'Body' => $payload,
+            'ContentType' => "text/html"
+        ]);
     }
 
     protected function generatePublicationPages(string $type)
     {
         $staticGenerator = $this;
 
-        collect($this->sourceClient->listObjectsV2([
+        collect($this->s3Client->listObjectsV2([
             'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
             'Prefix' => 'Publications/' . $type . "-",
         ])['Contents'])->map(function ($storageObject) use ($staticGenerator) {
-            $payload = $staticGenerator->sourceClient->getObject([
+            $payload = $staticGenerator->s3Client->getObject([
                 'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
                 'Key' => $storageObject['Key']
             ]);
