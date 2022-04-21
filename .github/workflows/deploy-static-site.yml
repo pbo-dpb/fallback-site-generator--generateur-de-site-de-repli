@@ -1,21 +1,22 @@
 name: Deploy static site
 on: [workflow_dispatch]
-jobs: Run-Main-Exporter-PHP
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v2
-  - name: Setup PHP
-    uses: shivammathur/setup-php@v2
-    with:
-      php-version: '8.1'
-      extensions: intl
-      tools: composer:v2
-  - name: Install dependencies
-    run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --no-dev
-  - name: Run script
-    env:
-      SOURCE_S3_BUCKET: ${{ secrets.SOURCE_S3_BUCKET }}
-      OUTPUT_S3_BUCKET: ${{ secrets.OUTPUT_S3_BUCKET }}
-      OUTPUT_S3_ID: ${{ secrets.OUTPUT_S3_ID }}
-      OUTPUT_S3_KEY: ${{ secrets.OUTPUT_S3_KEY }}
-    run: php run.php
+jobs: 
+  run-main-exporter-php:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+        extensions: intl
+        tools: composer:v2
+    - name: Install dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --no-dev
+    - name: Run script
+      env:
+        SOURCE_S3_BUCKET: ${{ secrets.SOURCE_S3_BUCKET }}
+        OUTPUT_S3_BUCKET: ${{ secrets.OUTPUT_S3_BUCKET }}
+        OUTPUT_S3_ID: ${{ secrets.OUTPUT_S3_ID }}
+        OUTPUT_S3_KEY: ${{ secrets.OUTPUT_S3_KEY }}
+      run: php run.php
