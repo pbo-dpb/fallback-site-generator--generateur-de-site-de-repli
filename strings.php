@@ -1,5 +1,9 @@
 <?php
 return [
+    "title" => [
+        "en" => "OPBO",
+        "fr" => "BDPB"
+    ],
     "rp" => [
         "en" => "Report",
         "fr" => "Rapport"

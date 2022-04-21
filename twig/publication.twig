@@ -1,5 +1,5 @@
-{% if language == 'fr' %}
-{{ publication.title_fr }}
-{% else %}
-{{ publication.title_en }}
-{% endif %}
+{% extends "base.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% endblock %}

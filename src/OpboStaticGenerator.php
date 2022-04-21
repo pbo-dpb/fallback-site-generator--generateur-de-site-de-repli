@@ -33,6 +33,7 @@ class OpboStaticGenerator
         })->whereNotNull('slug')->each(function ($publication) use ($staticGenerator) {
             collect(['en', 'fr'])->each(function ($language) use ($publication, $staticGenerator) {
                 $payload = $this->twig->render('publication.twig', [
+                    'title' => data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', ''),
                     'publication' => $publication,
                     'language' => $language,
                     'strings' => $staticGenerator->translator->getTranslations($language)

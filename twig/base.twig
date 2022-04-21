@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" data-env="production">
+    <head>
+        {% block head %}
+            <meta charset="UTF-8" />
+              <script src="https://cdn.tailwindcss.com"></script>
+            <title>{% block title %}{% endblock %} - {{ strings.title }}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <div id="content">{% block content %}{% endblock %}</div>
+        <div id="footer">
+            {% block footer %}
+                
+            {% endblock %}
+        </div>
+    </body>
+</html>
