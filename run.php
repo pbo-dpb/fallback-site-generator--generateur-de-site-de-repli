@@ -10,9 +10,6 @@ spl_autoload_register('loadSrc');
 $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
-dd($_ENV);
-
-/*
 
 $client = new \Aws\S3\S3Client([
     'version' => 'latest',
@@ -26,4 +23,3 @@ $client = new \Aws\S3\S3Client([
 
 $sgen = new OpboStaticGenerator($client);
 $sgen->run();
-*/
