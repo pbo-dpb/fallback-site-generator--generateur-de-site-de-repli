@@ -6,7 +6,7 @@ class OpboTranslator
     protected array $sourceTranslations;
     function __construct()
     {
-        $this->sourceTranslations = require_once(__DIR__ . "/../strings.php");
+        $this->sourceTranslations = require(__DIR__ . "/../strings.php");
     }
 
     public function getTranslations(string $language): array

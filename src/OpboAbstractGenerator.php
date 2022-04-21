@@ -11,14 +11,19 @@ class OpboAbstractGenerator
         $this->translator = new OpboTranslator();
     }
 
-    protected function saveStaticHtmlFile(string $path, string $payload)
+    protected function saveFile(string $path, string $payload, string $contentType)
     {
         $this->s3Client->putObject([
             'Bucket' => $_ENV['OUTPUT_S3_BUCKET'],
             'Key' => $path,
             'Body' => $payload,
-            'ContentType' => "text/html"
+            'ContentType' => $contentType
         ]);
+    }
+
+    protected function saveStaticHtmlFile(string $path, string $payload)
+    {
+        $this->saveFile($path, $payload, "text/html");
     }
 
 

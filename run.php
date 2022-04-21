@@ -20,6 +20,6 @@ $client = new \Aws\S3\S3Client([
     ],
 ]);
 
-collect(["GeneratePublications"])->each(function ($className) use ($client) {
+collect(["CopyStaticAssets", "GeneratePublications"])->each(function ($className) use ($client) {
     (new $className($client))->run();
 });
