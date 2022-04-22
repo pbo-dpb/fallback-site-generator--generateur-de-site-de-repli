@@ -1,5 +1,21 @@
+{% set breadcrumbs = {
+  'Hello': '#1',
+  'World': '#2'
+}
+%}
 {% extends "base.twig" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-<h1>{{ title }}</h1>
+
+
+
+<h1 class="leading-none font-thin mb-4 text-4xl">
+{{ title }}
+</h1>
+
+
+
+
+
+
 {% endblock %}

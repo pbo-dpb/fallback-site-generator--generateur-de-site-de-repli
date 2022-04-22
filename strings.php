@@ -1,8 +1,8 @@
 <?php
 return [
     "title" => [
-        "en" => "OPBO",
-        "fr" => "BDPB"
+        "en" => "Office of the Parliamentary Budget Officer",
+        "fr" => "Bureau du directeur parlementaire du budget"
     ],
     "rp" => [
         "en" => "Report",

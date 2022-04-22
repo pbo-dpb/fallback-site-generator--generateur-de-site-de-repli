@@ -7,11 +7,18 @@
             <title>{% block title %}{% endblock %} - {{ strings.title }}</title>
         {% endblock %}
     </head>
-    <body>
-        <div id="content">{% block content %}{% endblock %}</div>
-        <div id="footer">
+    <body class="flex flex-col min-h-screen gap-4">
+            {% include 'header.twig' %}
+        <main class="container px-4 mx-auto">
+        {% block content %}{% endblock %}
+        </main>
+        <div id="footer"  class="container px-4 mx-auto text-xs text-gray-700">
             {% block footer %}
-                
+            {% if language == 'fr' %}
+                © Bureau du directeur parlementaire du budget, Ottawa, Canada
+            {% else %}
+                © Office of the Parliamentary Budget Officer, Ottawa, Canada
+            {% endif %}
             {% endblock %}
         </div>
     </body>
