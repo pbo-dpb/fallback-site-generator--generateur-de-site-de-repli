@@ -2,19 +2,22 @@
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
 
+<div class="text-xs font-semibold text-gray-900 border-l-4 border-gray-300 bg-gray-100 px-2 py-1 w-fit">{{type}}</div>
 
 
-<h1 class="leading-none font-thin mb-4 text-4xl">
+<h1 class="leading-none font-thin text-4xl">
 {{ title }}
 </h1>
 
+<div>{{ publication.release_date | format_datetime(locale=language) }}</div>
+
+<a class="rounded font-semibold uppercase text-blue-800 text-lg hover:text-blue-600 underline" href="{{ artifact }}" target="_blank">PDF 🗎</a>
+
 {% if abstract %}
-<div class="prose no-max-w">
+<div class="prose max-w-none">
 {{ abstract | raw  }}
 </div>
 {% endif %}
-
-
 
 
 {% endblock %}

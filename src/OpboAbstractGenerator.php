@@ -8,6 +8,7 @@ class OpboAbstractGenerator
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../twig');
         $this->twig = new \Twig\Environment($loader);
+        $this->twig->addExtension(new \Twig\Extra\Intl\IntlExtension());
         $this->translator = new OpboTranslator();
     }
 

@@ -31,11 +31,13 @@ class GeneratePublications  extends OpboAbstractGenerator
                 $type = $strings[data_get($publication, 'type')];
                 $title = data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', '');
                 $abstract = $converter->convert(data_get($publication, 'metadata.abstract_' . $language, ''));
+
+                $artifact = data_get($publication, "artifact.main." . $language . ".public");
                 $breadcrumbs = [
                     $strings['publications'] => "/" . $language . "/publications/",
                     $title => "/" . $language . "/publications/" . data_get($publication, 'slug')
                 ];
-                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs'));
+                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact"));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
             });
         });

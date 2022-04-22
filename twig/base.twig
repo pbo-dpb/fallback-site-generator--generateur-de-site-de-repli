@@ -3,13 +3,13 @@
     <head>
         {% block head %}
             <meta charset="UTF-8" />
-              <script src="https://cdn.tailwindcss.com"></script>
+              <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
             <title>{% block title %}{% endblock %} - {{ strings.title }}</title>
         {% endblock %}
     </head>
     <body class="flex flex-col min-h-screen gap-4">
             {% include 'header.twig' %}
-        <main class="container px-4 mx-auto">
+        <main class="container px-4 mx-auto flex flex-col gap-4">
         {% block content %}{% endblock %}
         </main>
         <div id="footer"  class="container px-4 mx-auto text-xs text-gray-700">
