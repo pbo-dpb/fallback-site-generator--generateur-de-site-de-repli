@@ -4,19 +4,23 @@ return [
         "en" => "Office of the Parliamentary Budget Officer",
         "fr" => "Bureau du directeur parlementaire du budget"
     ],
-    "rp" => [
+    "publications" => [
+        "en" => "Publications",
+        "fr" => "Publications",
+    ],
+    "RP" => [
         "en" => "Report",
         "fr" => "Rapport"
     ],
-    "leg" => [
+    "LEG" => [
         "en" => "Legislative Costing Note",
         "fr" => "Note sur l'évaluation du coût d'une mesure législative"
     ],
-    "adm" => [
+    "ADM" => [
         "en" => "Administrative Report",
         "fr" => "Rapport administratif"
     ],
-    "libarc" => [
+    "LIBARC" => [
         "en" => "Archived Document",
         "fr" => "Document archivé"
     ],

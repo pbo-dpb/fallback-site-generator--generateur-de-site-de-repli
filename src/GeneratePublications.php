@@ -1,5 +1,6 @@
 <?php
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class GeneratePublications  extends OpboAbstractGenerator
 {
@@ -20,12 +21,21 @@ class GeneratePublications  extends OpboAbstractGenerator
             return json_decode((string)$payload['Body']);
         })->whereNotNull('slug')->each(function ($publication) use ($staticGenerator) {
             collect(['en', 'fr'])->each(function ($language) use ($publication, $staticGenerator) {
-                $payload = $this->twig->render('publication.twig', [
-                    'title' => data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', ''),
-                    'publication' => $publication,
-                    'language' => $language,
-                    'strings' => $staticGenerator->translator->getTranslations($language)
+
+                $converter = new GithubFlavoredMarkdownConverter([
+                    'html_input' => 'strip',
+                    'allow_unsafe_links' => false,
                 ]);
+
+                $strings = $staticGenerator->translator->getTranslations($language);
+                $type = $strings[data_get($publication, 'type')];
+                $title = data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', '');
+                $abstract = $converter->convert(data_get($publication, 'metadata.abstract_' . $language, ''));
+                $breadcrumbs = [
+                    $strings['publications'] => "/" . $language . "/publications/",
+                    $title => "/" . $language . "/publications/" . data_get($publication, 'slug')
+                ];
+                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs'));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
             });
         });

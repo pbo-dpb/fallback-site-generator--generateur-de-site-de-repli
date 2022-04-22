@@ -1,8 +1,3 @@
-{% set breadcrumbs = {
-  'Hello': '#1',
-  'World': '#2'
-}
-%}
 {% extends "base.twig" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
@@ -13,7 +8,11 @@
 {{ title }}
 </h1>
 
-
+{% if abstract %}
+<div class="prose no-max-w">
+{{ abstract | raw  }}
+</div>
+{% endif %}
 
 
 
