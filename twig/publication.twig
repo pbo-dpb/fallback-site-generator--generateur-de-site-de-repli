@@ -9,7 +9,7 @@
 {{ title }}
 </h1>
 
-<div>{{ publication.release_date | format_datetime(locale=language) }}</div>
+<div>{{ publication.release_date | format_date(locale=language) }}</div>
 
 <a class="rounded font-semibold uppercase text-blue-800 text-lg hover:text-blue-600 underline" href="{{ artifact }}" target="_blank">PDF 🗎</a>
 

@@ -24,4 +24,20 @@ return [
         "en" => "Archived Document",
         "fr" => "Document archivé"
     ],
+    "RP_plural" => [
+        "en" => "Reports",
+        "fr" => "Rapports"
+    ],
+    "LEG_plural" => [
+        "en" => "Legislative Costing Notes",
+        "fr" => "Notes sur l'évaluation du coût d'une mesure législative"
+    ],
+    "ADM_plural" => [
+        "en" => "Administrative Reports",
+        "fr" => "Rapports administratifs"
+    ],
+    "LIBARC_plural" => [
+        "en" => "Archived Documents",
+        "fr" => "Documents archivés"
+    ],
 ];

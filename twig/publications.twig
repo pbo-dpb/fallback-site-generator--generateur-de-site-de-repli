@@ -1,0 +1,47 @@
+{% extends "base.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+<ul class="flex flex-col gap-4">
+{% for publication in publications %}
+
+
+
+
+<!-- Publication:start -->
+<li class="border-b border-gray-300 last:border-b-0 pb-4 last:pb-0">
+<a href="/{{ language }}/publications/{{ publication.slug }}" class="flex flex-col gap-2 ">
+<span class="underline text-blue-800 font-semibold">
+    {% if language == 'fr' %}
+    {{ publication.title_fr }}
+    {% else %}
+    {{ publication.title_en }}
+    {% endif %}
+</span>
+<span class="text-xs font-semibold text-gray-600">
+    {{ publication.release_date | format_date(locale=language) }}
+<span aria-hidden="true"> • </span>
+    {{ publication.internal_id }}
+</span>
+
+    {% if language == 'fr' and publication.metadata.abstract_fr %}
+    <span class="text-sm">{{ publication.metadata.abstract_fr }}</span>
+    {% elseif language == 'en' and publication.metadata.abstract_en %}
+    <span class="text-sm">{{ publication.metadata.abstract_en }}</span>
+    {% endif %}
+
+</a>
+</li>
+<!-- Publication:stop -->
+
+
+
+
+{% endfor %}
+</ul>
+
+{% endblock %}

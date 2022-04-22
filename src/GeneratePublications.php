@@ -1,16 +1,46 @@
 <?php
 
+use Illuminate\Support\Collection;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class GeneratePublications  extends OpboAbstractGenerator
 {
 
+    protected function verboseFiscalYear(string $fiscalYear, string $language): string
+    {
+        $re = '/^(\d{2})(\d{2})$/m';
+        preg_match_all($re, $fiscalYear, $matches, PREG_SET_ORDER, 0);
+        return  $language == 'fr' ? ("20" . $matches[0][1] . "-20" . $matches[0][2]) : ("20" . $matches[0][1] . "-" . $matches[0][2]);
+    }
+
+    protected function titleForFiscalYearPage(string $type, string $fiscalYear, string $language): string
+    {
+        $strings = $this->translator->getTranslations($language);
+        return $strings[$type . "_plural"] . " - " . $this->verboseFiscalYear($fiscalYear, $language);
+    }
+
+    protected function generateIndexPageForFiscalYear(string $type, string $fiscalYear, Collection $publications, ?bool $first = false)
+    {
+        $staticGenerator = $this;
+        collect(["en", "fr"])->each(function ($language) use ($type, $fiscalYear, $publications, $first, $staticGenerator) {
+            $strings = $staticGenerator->translator->getTranslations($language);
+
+
+            $title = $staticGenerator->titleForFiscalYearPage($type, $fiscalYear, $language);
+            $breadcrumbs = [
+                $strings['publications'] => "/" . $language . "/publications/",
+                $title => "/" . $language . "/publications/" . $type . "-" . $fiscalYear . ".html",
+            ];
+            $payload = $this->twig->render('publications.twig', compact('publications', 'title', 'language', 'strings', 'type', 'breadcrumbs'));
+            $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $type . "-" . $fiscalYear . ".html", $payload);
+        });
+    }
 
     protected function generatePublicationPages(string $type)
     {
         $staticGenerator = $this;
 
-        collect($this->s3Client->listObjectsV2([
+        return collect($this->s3Client->listObjectsV2([
             'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
             'Prefix' => 'Publications/' . $type . "-",
         ])['Contents'])->map(function ($storageObject) use ($staticGenerator) {
@@ -33,12 +63,33 @@ class GeneratePublications  extends OpboAbstractGenerator
                 $abstract = $converter->convert(data_get($publication, 'metadata.abstract_' . $language, ''));
 
                 $artifact = data_get($publication, "artifact.main." . $language . ".public");
+
+
+                $re = '/^[A-Z]+-(\d{4})-(\d{3})/m';
+                preg_match_all($re, $publication->internal_id, $matches, PREG_SET_ORDER, 0);
+                $fiscalYear = data_get($matches, "0.1", '9999');
+                $fiscalYearTitle = $staticGenerator->titleForFiscalYearPage($publication->type, $fiscalYear, $language);
+
                 $breadcrumbs = [
                     $strings['publications'] => "/" . $language . "/publications/",
+                    $fiscalYearTitle => "/" . $language . "/publications/" . data_get($publication, 'type') . "-" . $fiscalYear . ".html",
                     $title => "/" . $language . "/publications/" . data_get($publication, 'slug')
                 ];
                 $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact"));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
+            });
+        })->sortByDesc("release_date")->groupBy(function ($publication) {
+            $re = '/^[A-Z]+-(\d{4})-(\d{3})/m';
+
+            preg_match_all($re, $publication->internal_id, $matches, PREG_SET_ORDER, 0);
+            return $matches[0][1] ?? null;
+        })->reject(function ($values, $key) {
+            return !$key || $key == "";
+        })->sortByDesc(function ($values, $key) {
+            return $key;
+        })->pipe(function ($collection) use ($staticGenerator, $type) {
+            $collection->each(function ($publications, $fiscalYear) use ($staticGenerator, $collection, $type) {
+                $staticGenerator->generateIndexPageForFiscalYear($type, $fiscalYear, $publications, $collection->keys()->first() == $fiscalYear);
             });
         });
     }
@@ -49,8 +100,8 @@ class GeneratePublications  extends OpboAbstractGenerator
         parent::run();
 
         $staticGenerator = $this;
-        collect(["RP", "LEG", "ADM", "LIBARC"])->each(function ($type) use ($staticGenerator) {
-            $this->generatePublicationPages($type);
+        return $publications = collect(["RP", "LEG", "ADM", "LIBARC"])->map(function ($type) use ($staticGenerator) {
+            return $this->generatePublicationPages($type);
         });
     }
 }
