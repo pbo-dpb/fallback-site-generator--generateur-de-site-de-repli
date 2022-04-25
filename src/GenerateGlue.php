@@ -10,6 +10,16 @@ class GenerateGlue extends OpboAbstractGenerator
         $this->saveStaticHtmlFile('index.html', $payload);
     }
 
+    public function generateHome()
+    {
+        $job = $this;
+        collect(["en", "fr"])->each(function ($language) use ($job) {
+            $strings = $job->translator->getTranslations($language);
+            $payload = $this->twig->render('home.twig', compact("strings", "language"));
+            $job->saveStaticHtmlFile($language . '/index.html', $payload);
+        });
+    }
+
 
 
 
@@ -17,5 +27,6 @@ class GenerateGlue extends OpboAbstractGenerator
     {
         parent::run();
         $this->generateLanguageSelectorSplashPage();
+        $this->generateHome();
     }
 }

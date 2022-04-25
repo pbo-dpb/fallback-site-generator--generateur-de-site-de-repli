@@ -1,13 +1,13 @@
 <header>
    <section class="container mx-auto px-4">
       <div class="flex flex-col-reverse md:flex-row md:items-center py-2 md:py-4 md:justify-between w-full">
-         <a href="/en" class="w-full md:w-1/4 place-self-center"><img src="/logo.full.{{ language }}.svg" alt="{{ strings.title }}" class="w-full"></a>
+         <a href="/{{ language }}/" class="w-full md:w-1/4 place-self-center"><img src="/logo.full.{{ language }}.svg" alt="{{ strings.title }}" class="w-full"></a>
          <div class="text-right md:w-1/4">
             <div class="md:mb-4">
             <nav>{% if language == 'en' %}
-               <a href="/fr/" class="text-blue-800 underline"><span class="hidden md:block">Français</span><span class="md:hidden">FR</span></a>
+               <a href="{% if block("langalt") is defined %}{{ block('langalt') }}{% else %}/fr/{% endif %}" class="text-blue-800 underline"><span class="hidden md:block">Français</span><span class="md:hidden">FR</span></a>
             {% else %}
-                <a href="/en/" class="text-blue-800 underline"><span class="hidden md:block">English</span><span class="md:hidden">EN</span></a>
+                <a href="{% if block("langalt") is defined %}{{ block('langalt') }}{% else %}/en/{% endif %}" class="text-blue-800 underline"><span class="hidden md:block">English</span><span class="md:hidden">EN</span></a>
             {% endif %}</nav>
             </div>
             

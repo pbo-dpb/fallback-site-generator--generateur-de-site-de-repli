@@ -1,0 +1,11 @@
+{% extends "base.twig" %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ strings.title }}
+</h1>
+
+<a class="underline text-blue-800" href="/{{language}}/publications/">{{ strings.publications }}</a>
+
+{% endblock %}
