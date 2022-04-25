@@ -1,10 +1,11 @@
 <?php
 
+
 class OpboAbstractGenerator
 {
     protected $twig, $strings;
 
-    function __construct(public \Aws\S3\S3Client $s3Client)
+    function __construct(public \Aws\S3\S3Client $s3Client, array $previousJobs)
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../twig');
         $this->twig = new \Twig\Environment($loader);
