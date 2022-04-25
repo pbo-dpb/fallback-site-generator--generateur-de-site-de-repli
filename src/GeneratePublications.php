@@ -44,7 +44,6 @@ class GeneratePublications  extends OpboAbstractGenerator
             });
 
 
-
             $payload = $this->twig->render('pubindex.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'types'));
             $staticGenerator->saveStaticHtmlFile($language . '/publications/index.html', $payload);
         });
@@ -137,6 +136,7 @@ class GeneratePublications  extends OpboAbstractGenerator
         })->pipe(
             function ($years) use ($staticGenerator) {
                 $staticGenerator->generateIndexPage($years);
+                return $years;
             }
         );
     }

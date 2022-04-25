@@ -20,6 +20,6 @@ $client = new \Aws\S3\S3Client([
     ],
 ]);
 
-collect(["CopyStaticAssets", "GeneratePublications"])->each(function ($className) use ($client) {
-    (new $className($client))->run();
-});
+collect(["CopyStaticAssets", "GeneratePublications", "GenerateGlue"])->reduce(function ($carry, $className) use ($client) {
+    return $carry[$className] = (new $className($client))->run();
+}, []);
