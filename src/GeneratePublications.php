@@ -19,6 +19,37 @@ class GeneratePublications  extends OpboAbstractGenerator
         return $strings[$type . "_plural"] . " - " . $this->verboseFiscalYear($fiscalYear, $language);
     }
 
+    protected function generateIndexPage(Collection $years)
+    {
+        $staticGenerator = $this;
+        collect(["en", "fr"])->each(function ($language) use ($years, $staticGenerator) {
+            $strings = $staticGenerator->translator->getTranslations($language);
+
+            $title = $strings['publications'];
+            $breadcrumbs = [
+                $title => "/" . $language . "/publications/",
+            ];
+
+            $types = $years->map(function ($yr, $type) use ($strings, $staticGenerator, $language) {
+                return [
+                    "title" => $strings[$type . "_plural"],
+                    'tp' => $type,
+                    "years" => $yr->map(function ($publications, $fiscalYear) use ($staticGenerator, $language) {
+                        return [
+                            "title" => $staticGenerator->verboseFiscalYear($fiscalYear, $language),
+                            "fy" => $fiscalYear
+                        ];
+                    })
+                ];
+            });
+
+
+
+            $payload = $this->twig->render('pubindex.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'types'));
+            $staticGenerator->saveStaticHtmlFile($language . '/publications/index.html', $payload);
+        });
+    }
+
     protected function generateIndexPageForFiscalYear(string $type, string $fiscalYear, Collection $publications, ?bool $first = false)
     {
         $staticGenerator = $this;
@@ -91,6 +122,7 @@ class GeneratePublications  extends OpboAbstractGenerator
             $collection->each(function ($publications, $fiscalYear) use ($staticGenerator, $collection, $type) {
                 $staticGenerator->generateIndexPageForFiscalYear($type, $fiscalYear, $publications, $collection->keys()->first() == $fiscalYear);
             });
+            return $collection;
         });
     }
 
@@ -100,8 +132,12 @@ class GeneratePublications  extends OpboAbstractGenerator
         parent::run();
 
         $staticGenerator = $this;
-        return $publications = collect(["RP", "LEG", "ADM", "LIBARC"])->map(function ($type) use ($staticGenerator) {
-            return $this->generatePublicationPages($type);
-        });
+        return $publications = collect(["RP", "LEG", "ADM", "LIBARC"])->mapWithKeys(function ($type) use ($staticGenerator) {
+            return [$type => $this->generatePublicationPages($type)];
+        })->pipe(
+            function ($years) use ($staticGenerator) {
+                $staticGenerator->generateIndexPage($years);
+            }
+        );
     }
 }

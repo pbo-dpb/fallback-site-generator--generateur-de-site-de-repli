@@ -1,0 +1,25 @@
+{% extends "base.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+
+{% for type in types %}
+<h2 class="text-lg font-semibold">{{ type.title }}</h2>
+<ul>
+
+{% for year in type.years %}
+<li>
+<a href="/{{ language }}/publications/{{ type.tp }}-{{ year.fy }}.html" class="underline text-blue-800">{{ year.title }}</a>
+</li>
+{% endfor %}
+
+</ul>
+{% endfor %}
+
+
+
+{% endblock %}
