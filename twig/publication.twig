@@ -1,3 +1,4 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/publications/' ~ publication.slug %}
 {% extends "base.twig" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}

@@ -4,11 +4,12 @@
          <a href="/{{ language }}/" class="w-full md:w-1/4 place-self-center"><img src="/logo.full.{{ language }}.svg" alt="{{ strings.title }}" class="w-full"></a>
          <div class="text-right md:w-1/4">
             <div class="md:mb-4">
-            <nav>{% if language == 'en' %}
-               <a href="{% if block("langalt") is defined %}{{ block('langalt') }}{% else %}/fr/{% endif %}" class="text-blue-800 underline"><span class="hidden md:block">Français</span><span class="md:hidden">FR</span></a>
-            {% else %}
-                <a href="{% if block("langalt") is defined %}{{ block('langalt') }}{% else %}/en/{% endif %}" class="text-blue-800 underline"><span class="hidden md:block">English</span><span class="md:hidden">EN</span></a>
-            {% endif %}</nav>
+            <nav>
+               <a 
+               href="{% if langalt is defined %}{{ langalt }}{% else %}/{{ language == 'en' ? 'fr' : 'en' }}/{% endif %}" 
+               class="text-blue-800 underline">
+               <span class="hidden md:block">{{ language == 'en' ? 'Français' : 'English' }}</span><span class="md:hidden">{{ language == 'en' ? 'FR' : 'EN' }}</span></a>
+           </nav>
             </div>
             
          </div>
