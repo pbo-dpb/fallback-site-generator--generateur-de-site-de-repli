@@ -15,7 +15,9 @@ class GenerateGlue extends OpboAbstractGenerator
         $job = $this;
         collect(["en", "fr"])->each(function ($language) use ($job) {
             $strings = $job->translator->getTranslations($language);
-            $payload = $this->twig->render('home.twig', compact("strings", "language"));
+            $title = $strings['title'];
+
+            $payload = $this->twig->render('home.twig', compact("strings", "language", "title"));
             $job->saveStaticHtmlFile($language . '/index.html', $payload);
         });
     }
