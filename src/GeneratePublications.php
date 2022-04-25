@@ -55,13 +55,12 @@ class GeneratePublications  extends OpboAbstractGenerator
         collect(["en", "fr"])->each(function ($language) use ($type, $fiscalYear, $publications, $first, $staticGenerator) {
             $strings = $staticGenerator->translator->getTranslations($language);
 
-
             $title = $staticGenerator->titleForFiscalYearPage($type, $fiscalYear, $language);
             $breadcrumbs = [
                 $strings['publications'] => "/" . $language . "/publications/",
                 $title => "/" . $language . "/publications/" . $type . "-" . $fiscalYear . ".html",
             ];
-            $payload = $this->twig->render('publications.twig', compact('publications', 'title', 'language', 'strings', 'type', 'breadcrumbs'));
+            $payload = $this->twig->render('publications.twig', compact('publications', 'title', 'language', 'strings', 'type', 'breadcrumbs', 'fiscalYear'));
             $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $type . "-" . $fiscalYear . ".html", $payload);
         });
     }

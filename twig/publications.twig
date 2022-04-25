@@ -1,3 +1,4 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/publications/' ~ type ~ "-" ~ fiscalYear ~ ".html" %}
 {% extends "base.twig" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
