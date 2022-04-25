@@ -4,7 +4,7 @@
         {% block head %}
             <meta charset="UTF-8" />
               <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-            <title>{% block title %}{% endblock %} - {{ strings.title }}</title>
+            <title>{% if title is defined %} {{ title }} - {{ strings.title }}{% else %}OPBO-BDPB{%endif%}</title>
         {% endblock %}
     </head>
     <body class="flex flex-col min-h-screen gap-4">
