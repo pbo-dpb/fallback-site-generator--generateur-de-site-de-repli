@@ -12,10 +12,7 @@ return [
         "en" => "Information Requests",
         "fr" => "Demandes d'information"
     ],
-    "epc_estimates" => [
-        "en" => "Election Proposal Costing Estimates",
-        "fr" => "Estimation du coût des promesses électorales"
-    ],
+
     "publications" => [
         "en" => "Publications",
         "fr" => "Publications",
@@ -89,5 +86,13 @@ return [
     "irs_disposition_status_does_not_exist" => [
         "en" => "Requested information does not exist",
         "fr" => "Informations demandées n'existent pas"
+    ],
+    "epc_election_occurence" => [
+        "en" => "Election #? (?)",
+        "fr" => "Élection #? (?)"
+    ],
+    "epc_estimates" => [
+        "en" => "Election Proposal Costing Estimates",
+        "fr" => "Estimation du coût des promesses électorales"
     ],
 ];

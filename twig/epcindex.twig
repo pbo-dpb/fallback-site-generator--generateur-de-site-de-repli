@@ -1,0 +1,23 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/epc-estimates--estimations-cpe/' %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+
+
+<ul>
+
+{% for election in elections %}
+<li>
+<a href="{{ election.link }}" class="underline text-blue-800">{{ election.title }}</a>
+</li>
+{% endfor %}
+
+</ul>
+
+
+
+{% endblock %}

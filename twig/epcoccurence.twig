@@ -1,0 +1,33 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/epc-estimates--estimations-cpe/' ~ occurence.id %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+
+<ul class="flex flex-col gap-4 lg:gap-1">
+    {% for costing in costings %}
+
+
+
+        <li class="odd:bg-white even:bg-slate-100 text-sm flex flex-col lg:grid lg:grid-cols-9 gap-1 py-1">
+            <a href="{{ costing.link }}" class="col-span-5 underline text-blue-800">
+                {{costing.title}}
+            </a>
+            <div class="col-span-3">
+                {{costing.requester}}
+            </div>
+            <div>
+                {{ costing.date  | format_date(locale=language) }}
+            </div>
+
+        </li>
+
+
+    {% endfor %}
+</ul>
+
+
+{% endblock %}
