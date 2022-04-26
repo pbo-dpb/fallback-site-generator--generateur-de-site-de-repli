@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
@@ -31,11 +32,21 @@ class CmsPage extends AbstractModel
         return $rawContent ? $this->renderBlock($rawContent) : null;
     }
 
+    protected function renderableBlocks(): Collection
+    {
+        return collect($this->blocks)->whereIn('type_major', ['html', 'markdown']);
+    }
+
+    public function hasRenderableBlocks(): bool
+    {
+        return $this->renderableBlocks()->count() ? true : false;
+    }
+
     public function render(string $language)
     {
 
         $model = $this;
-        return collect($this->blocks)->whereIn('type_major', ['html', 'markdown'])->map(function ($block) use ($model, $language) {
+        return $this->renderableBlocks()->map(function ($block) use ($model, $language) {
             $functionName = "render" . Str::studly(data_get($block, "type_major") . "Block");
             return $model->$functionName($block, $language);
         })->filter()->implode("\n");

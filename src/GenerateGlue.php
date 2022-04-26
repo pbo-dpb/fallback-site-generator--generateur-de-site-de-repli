@@ -23,22 +23,14 @@ class GenerateGlue extends OpboAbstractGenerator
                 ->map(function ($pages, $sectionkey) use ($language) {
                     return [
                         "title" => data_get(collect($pages)->first(), "cms_section.title_" . $language),
-                        "pages" => collect($pages)->sortBy(function ($page) use ($language) {
+                        "pages" => collect($pages)->filter(function ($page) {
+                            return $page->hasRenderableBlocks();
+                        })->sortBy(function ($page) use ($language) {
                             return Str::padLeft(data_get($page, 'order', '0'), 3, '0') . data_get($page, 'title_' . $language);
                         })->map(function ($page) use ($language) {
-
-                            // Intercept special pages (EPC, IRs)
-                            if (data_get($page, 'slug') === "information-requests--demandes-information") {
-                                $link = "/" . $language . "/information-requests--demandes-information/";
-                            } elseif (data_get($page, 'slug') === "epc-estimates--estimations-cpe") {
-                                $link = "/" . $language . "/epc-estimates--estimations-cpe/";
-                            } else {
-                                $link = '/' . $language . "/" . data_get($page, 'slug');
-                            }
-
                             return [
                                 "title" => data_get($page, "title_" . $language),
-                                "link" => $link
+                                "link" => '/' . $language . "/" . data_get($page, 'slug')
                             ];
                         })
                     ];
