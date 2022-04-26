@@ -1,0 +1,33 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/epc-estimates--estimations-cpe/' ~ occurence.id %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+<ul class="flex lg:flex-row gap-2 lg:gap-4 font-semibold text-gray-800">
+<li>
+{{ epc.internal_id }}
+</li>
+
+<li role="separator" class="hidden lg:block text-gray-400">•</li>
+
+<li>
+{{ epc.date | format_date(locale=language) }}
+</li>
+
+<li role="separator" class="hidden lg:block text-gray-400">•</li>
+
+<li>
+{{ epc.requester }}
+</li>
+</ul>
+
+
+<object class="hidden md:block w-full h-screen" type="application/pdf"
+    data="{{ epc.pdf }}#navpanes=0&zoom=110"></object>  
+
+<a href="{{epc.pdf}}" targer="_blank" class="underline text-blue-800 font-semibold">Document (PDF)</a>
+
+{% endblock %}

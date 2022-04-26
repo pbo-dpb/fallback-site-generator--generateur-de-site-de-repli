@@ -5,6 +5,35 @@ use \Illuminate\Support\Str;
 class GenerateEpcPortal extends OpboAbstractGenerator
 {
 
+    public function generateCosting($costing)
+    {
+        $staticGenerator = $this;
+
+        collect(["en", "fr"])->each(function ($language) use ($staticGenerator, $costing) {
+            $strings = $staticGenerator->translator->getTranslations($language);
+            $title = data_get($costing, "title_" . $language);
+
+            $occurence = $costing->electionOccurence;
+
+            $breadcrumbs = [
+                $strings['epc_estimates'] => "/" . $language . "/epc-estimates--estimations-cpe/",
+                Str::replaceArray('?', [$occurence->id, date('Y-m-d', strtotime(data_get($occurence, 'election_date')))], $strings["epc_election_occurence"]) => "/" . $language . "/epc-estimates--estimations-cpe/" . $occurence->id,
+                $costing->internal_id => null
+            ];
+
+
+            $epc = [
+                "title" => data_get($costing, 'title_' . $language),
+                "internal_id" => $costing->internal_id,
+                'date' => strtotime($costing->release_date),
+                'requester' => data_get($costing, "electionRequester.title_" . $language),
+                'pdf' => data_get($costing, 'artifacts.main.' . $language . ".public"),
+            ];
+
+            $payload = $this->twig->render('epccosting.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'epc'));
+            $staticGenerator->saveStaticHtmlFile($language . '/epc-estimates--estimations-cpe/' . $occurence->id . "/" . $costing->internal_id, $payload);
+        });
+    }
 
     public function generateOccurenceList($occurence)
     {
@@ -65,7 +94,7 @@ class GenerateEpcPortal extends OpboAbstractGenerator
         parent::run();
         $staticGenerator = $this;
 
-        return collect($this->s3Client->listObjectsV2([
+        collect($this->s3Client->listObjectsV2([
             'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
             'Prefix' => 'ElectionOccurences/',
         ])['Contents'])->map(function ($storageObject) use ($staticGenerator) {
@@ -79,6 +108,19 @@ class GenerateEpcPortal extends OpboAbstractGenerator
             return $occurences;
         })->each(function ($occurence) use ($staticGenerator) {
             $staticGenerator->generateOccurenceList($occurence);
+        });
+
+        return collect($this->s3Client->listObjectsV2([
+            'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
+            'Prefix' => 'ElectionCostings/',
+        ])['Contents'])->map(function ($storageObject) use ($staticGenerator) {
+            $payload = $staticGenerator->s3Client->getObject([
+                'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
+                'Key' => $storageObject['Key']
+            ]);
+            return json_decode((string)$payload['Body']);
+        })->each(function ($costing) use ($staticGenerator) {
+            $staticGenerator->generateCosting($costing);
         });
     }
 }
