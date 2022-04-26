@@ -24,9 +24,9 @@ collect([
     "CopyStaticAssets",
     "GenerateCmsPages",
     "GeneratePublications",
-    //"GenerateBlogs",
-    //'GenerateIrs',
-    //"GenerateEpcPortal",
+    "GenerateBlogs",
+    'GenerateIrs',
+    "GenerateEpcPortal",
     "GenerateGlue"
 ])->reduce(function ($carry, $className) use ($client) {
     $carry[$className] = (new $className($client, $carry))->run();
