@@ -12,9 +12,9 @@ return [
         "en" => "Information Requests",
         "fr" => "Demandes d'information"
     ],
-    "epcs" => [
-        "en" => "Election Proposal Costing",
-        "fr" => "Coût des promesses électorales"
+    "epc_estimates" => [
+        "en" => "Election Proposal Costing Estimates",
+        "fr" => "Estimation du coût des promesses électorales"
     ],
     "publications" => [
         "en" => "Publications",
