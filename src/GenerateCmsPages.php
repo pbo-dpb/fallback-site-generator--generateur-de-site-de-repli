@@ -46,7 +46,7 @@ class GenerateCmsPages extends OpboAbstractGenerator
                 'Key' => $storageObject['Key']
             ]);
             return (string)$payload['Body'];
-        })->map(function ($rawCmsPage) {
+        })->filter()->map(function ($rawCmsPage) {
             return new CmsPage($rawCmsPage);
         })->each(function ($page) use ($staticGenerator) {
             $staticGenerator->savePage($page);

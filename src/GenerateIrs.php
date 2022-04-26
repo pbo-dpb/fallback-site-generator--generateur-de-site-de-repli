@@ -8,7 +8,7 @@ class GenerateIrs  extends OpboAbstractGenerator
 
     /**
      * This will generate a truly massive page with all IRs ever published as a single table.
-     * AWS SDK limits to 1000
+     * AWS SDK limits to 1000 so this function will need to be updated soon.
      */
     protected function generateIrsList()
     {

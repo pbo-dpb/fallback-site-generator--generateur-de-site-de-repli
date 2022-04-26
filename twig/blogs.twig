@@ -1,0 +1,39 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/additional-analyses--analyses-complementaires/' %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+<ul class="flex flex-col gap-4">
+{% for blog in adan %}
+
+
+
+
+<!-- Blog:start -->
+<li class="border-b border-gray-300 last:border-b-0 pb-4 last:pb-0">
+<a href="{{ blog.link }}" class="flex flex-col gap-2 ">
+<span class="underline text-blue-800 font-semibold">
+    {{ blog.title }}
+</span>
+<span class="text-xs font-semibold text-gray-600">
+    {{ blog.release_date | format_date(locale=language) }}
+</span>
+
+    {% if blog.abstract %}
+    <span class="text-sm">{{ blog.abstract }}</span>
+    {% endif %}
+
+</a>
+</li>
+<!-- Blog:stop -->
+
+
+
+
+{% endfor %}
+</ul>
+
+{% endblock %}

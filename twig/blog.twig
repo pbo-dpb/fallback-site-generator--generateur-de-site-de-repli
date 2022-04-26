@@ -1,0 +1,17 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/additional-analyses--analyses-complementaires/' ~ adan.slug %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+
+    {% if adan.abstract %}
+    <div class="prose max-w-none text-sm">{{ adan.abstract }}</div>
+    {% endif %}
+
+{{ adan.blocks | raw }}
+
+
+{% endblock %}

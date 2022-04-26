@@ -95,4 +95,9 @@ return [
         "en" => "Election Proposal Costing Estimates",
         "fr" => "Estimation du coût des promesses électorales"
     ],
+
+    "blogs" => [
+        "en" => "Additional Analyses",
+        "fr" => "Analyses complémentaires",
+    ],
 ];

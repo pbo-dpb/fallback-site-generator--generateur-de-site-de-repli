@@ -24,6 +24,7 @@ collect([
     "CopyStaticAssets",
     "GenerateCmsPages",
     //"GeneratePublications",
+    "GenerateBlogs",
     //'GenerateIrs',
     //"GenerateEpcPortal",
     "GenerateGlue"

@@ -23,9 +23,9 @@
     {% endif %}
 </span>
 <span class="text-xs font-semibold text-gray-600">
-    {{ publication.release_date | format_date(locale=language) }}
+    {{ publication.release_date | format_date(locale=language) }}</span>
 <span aria-hidden="true"> • </span>
-    {{ publication.internal_id }}
+    <span>{{ publication.internal_id }}
 </span>
 
     {% if language == 'fr' and publication.metadata.abstract_fr %}
