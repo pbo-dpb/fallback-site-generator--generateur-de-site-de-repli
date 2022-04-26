@@ -96,8 +96,7 @@ class GeneratePublications  extends OpboAbstractGenerator
                 }
 
 
-                $artifact = data_get($publication, "artifact.main." . $language . ".public");
-
+                $artifact = data_get($publication, "artifacts.main." . $language . ".public");
 
                 $re = '/^[A-Z]+-(\d{4})-(\d{3})/m';
                 preg_match_all($re, $publication->internal_id, $matches, PREG_SET_ORDER, 0);
