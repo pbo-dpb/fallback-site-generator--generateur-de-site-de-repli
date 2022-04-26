@@ -77,7 +77,7 @@ class GeneratePublications  extends OpboAbstractGenerator
                 'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
                 'Key' => $storageObject['Key']
             ]);
-            return json_decode((string)$payload['Body']);
+            return new Publication((string)$payload['Body']);
         })->whereNotNull('slug')->each(function ($publication) use ($staticGenerator) {
             collect(['en', 'fr'])->each(function ($language) use ($publication, $staticGenerator) {
 

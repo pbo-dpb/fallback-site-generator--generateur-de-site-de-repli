@@ -100,4 +100,67 @@ return [
         "en" => "Additional Analyses",
         "fr" => "Analyses complémentaires",
     ],
+
+
+    "files_supplementary_data" => [
+        "en" => "Supplementary Data",
+        "fr" => "Données supplémentaires"
+    ],
+    "files_q_and_a" => [
+        "en" => "Questions and Answers",
+        "fr" => "Questions et réponses"
+    ],
+    "files_revised_publication" => [
+        "en" => "Revision",
+        "fr" => "Révision"
+    ],
+    "files_revision_data" => [
+        "en" => "Revised data",
+        "fr" => "Données révisées"
+    ],
+    "files_data" => [
+        "en" => "Data",
+        "fr" => "Données"
+    ],
+    "files_presentation" => [
+        "en" => "Presentation",
+        "fr" => "Présentation"
+    ],
+    "files_letter" => [
+        "en" => "Letter",
+        "fr" => "Lettre"
+    ],
+    "files_request_letter" => [
+        "en" => "Request",
+        "fr" => "Requête"
+    ],
+    "files_reply_letter" => [
+        "en" => "Response",
+        "fr" => "Réponse"
+    ],
+    "files_data_file" => [
+        "en" => "Data",
+        "fr" => "Données"
+    ],
+    "files_other_outgoing_letter" => [
+        "en" => "Other",
+        "fr" => "Autre"
+    ],
+    "files_other_incoming_letter" => [
+        "en" => "Other",
+        "fr" => "Autree"
+    ],
+    "files_pd_travel" => [
+        "en" => "Employee Travel and Expenses",
+        "fr" => "Frais de déplacement du personnel"
+    ],
+    "files_pd_hospitality" => [
+        "en" => "Hospitality Expenses",
+        "fr" => "Frais d'accueil"
+    ],
+    "files_pd_contracts" => [
+        "en" => "Contracts Over $10,000",
+        "fr" => "Contrats de plus de 10 000 $"
+    ],
+
 ];

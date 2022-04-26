@@ -23,8 +23,9 @@ class GenerateCmsPages extends OpboAbstractGenerator
 
             $breadcrumbs[$title] = "/" . $language . "/" . data_get($page, 'slug');
 
-            $blocks = $page->render($language);
-            $payload = $this->twig->render('cmspage.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'blocks'));
+            $blocks = $page->renderBlocks($language);
+            $files =  $page->getFiles($language)->toArray();
+            $payload = $this->twig->render('cmspage.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'blocks', 'files'));
             $this->saveStaticHtmlFile($language . '/' . data_get($page, 'slug'), $payload);
         });
     }

@@ -26,14 +26,8 @@ class GenerateBlogs  extends OpboAbstractGenerator
                 'request_date' => $blog->release_date,
                 'abstract' => data_get($blog, 'abstract_' . $language),
                 'slug' =>  $blog->slug,
-                "files" => collect($blog->files)->map(function ($file) {
-                    return [
-                        "url" => data_get($file, "urls.en.public", data_get($file, "urls.public")),
-                        "extension" => data_get($file, "extension", "📄")
-                    ];
-                })
-                    ->toArray(),
-                "blocks" => $blog->render($language)
+                "files" => $blog->getFiles($language)->toArray(),
+                "blocks" => $blog->renderBlocks($language)
             ];
 
             $payload = $this->twig->render('blog.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'adan'));
@@ -63,15 +57,6 @@ class GenerateBlogs  extends OpboAbstractGenerator
                         'request_date' => $blog->release_date,
                         'abstract' => data_get($blog, 'abstract_' . $language),
                         'link' => "/" . $language . "/additional-analyses--analyses-complementaires/" . $blog->slug,
-                        /*"files" => collect($blog->files)->map(function ($file) {
-                            return [
-                                "url" => data_get($file, "urls.en.public", data_get($file, "urls.public")),
-                                "extension" => $file->extension
-                            ];
-                            
-                        })
-                        ->toArray()
-                        */
                     ];
                 })->toArray();
 

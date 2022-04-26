@@ -4,7 +4,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
-class AbstractBlockableModel
+class AbstractModel
 {
     function __construct(string $jsonPayload)
     {
@@ -40,7 +40,7 @@ class AbstractBlockableModel
 
     protected function renderableBlocks(): Collection
     {
-        return collect($this->blocks)->whereIn('type_major', ['html', 'markdown']);
+        return collect($this->blocks ?: [])->whereIn('type_major', ['html', 'markdown']);
     }
 
     public function hasRenderableBlocks(): bool
@@ -48,7 +48,7 @@ class AbstractBlockableModel
         return $this->renderableBlocks()->count() ? true : false;
     }
 
-    public function render(string $language)
+    public function renderBlocks(string $language)
     {
 
         $model = $this;
@@ -56,5 +56,19 @@ class AbstractBlockableModel
             $functionName = "render" . Str::studly(data_get($block, "type_major") . "Block");
             return $model->$functionName($block, $language);
         })->filter()->implode("\n");
+    }
+
+    public function getFiles(string $language): Collection
+    {
+        $translator = new OpboTranslator();
+        return collect($this->files)->map(function ($file) use ($language, $translator) {
+            $strings = $translator->getTranslations($language);
+            return [
+                "name" => data_get($strings, "files_" . data_get($file, "document_type"), "Document"),
+                "description" =>  data_get($file, "description_" . $language),
+                "url" => data_get($file, "urls." . $language . ".public", data_get($file, "urls.public")),
+                "extension" => data_get($file, "extension", "📄")
+            ];
+        });
     }
 }

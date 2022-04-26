@@ -2,6 +2,6 @@
 
 
 
-class Blog extends AbstractBlockableModel
+class Blog extends AbstractModel
 {
 }

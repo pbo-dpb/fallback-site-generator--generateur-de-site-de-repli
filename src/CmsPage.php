@@ -2,6 +2,6 @@
 
 
 
-class CmsPage extends AbstractBlockableModel
+class CmsPage extends AbstractModel
 {
 }
