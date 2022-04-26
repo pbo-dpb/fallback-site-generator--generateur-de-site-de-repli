@@ -23,8 +23,8 @@ $client = new \Aws\S3\S3Client([
 collect([
     "CopyStaticAssets",
     "GenerateCmsPages",
-    //"GeneratePublications",
-    //'GenerateIrs',
+    "GeneratePublications",
+    'GenerateIrs',
     "GenerateEpcPortal",
     "GenerateGlue"
 ])->reduce(function ($carry, $className) use ($client) {
