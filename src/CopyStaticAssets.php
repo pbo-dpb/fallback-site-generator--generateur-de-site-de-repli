@@ -3,9 +3,6 @@
 
 class CopyStaticAssets extends OpboAbstractGenerator
 {
-    protected $twig, $strings;
-
-
     public function run()
     {
         parent::run();

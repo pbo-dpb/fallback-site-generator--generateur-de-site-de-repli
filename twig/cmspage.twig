@@ -1,0 +1,13 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/' ~ page.slug %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+ 
+{{ blocks | raw }}
+
+
+{% endblock %}

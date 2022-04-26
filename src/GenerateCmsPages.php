@@ -1,0 +1,50 @@
+<?php
+
+use Illuminate\Support\Collection;
+
+class GenerateCmsPages extends OpboAbstractGenerator
+{
+
+    public function savePage(CmsPage $page)
+    {
+
+        $staticGenerator = $this;
+        collect(['en', 'fr'])->each(function ($language) use ($staticGenerator, $page) {
+
+            $strings = $staticGenerator->translator->getTranslations($language);
+
+            $title = data_get($page, 'title_' . $language);
+            $breadcrumbs = [
+                $title => "/" . $language . "/" . data_get($page, 'slug'),
+            ];
+
+            $blocks = $page->render($language);
+            $payload = $this->twig->render('cmspage.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'blocks'));
+            $this->saveStaticHtmlFile($language . '/' . data_get($page, 'slug'), $payload);
+        });
+    }
+
+
+    public function run(): Collection
+    {
+
+        parent::run();
+
+        $staticGenerator = $this;
+
+        return collect($this->s3Client->listObjectsV2([
+            'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
+            'Prefix' => 'CmsPages/',
+        ])['Contents'])->map(function ($storageObject) use ($staticGenerator) {
+            $payload = $staticGenerator->s3Client->getObject([
+                'Bucket' => $_ENV['SOURCE_S3_BUCKET'],
+                'Key' => $storageObject['Key']
+            ]);
+            return (string)$payload['Body'];
+        })->map(function ($rawCmsPage) {
+            return new CmsPage($rawCmsPage);
+        })->each(function ($page) use ($staticGenerator) {
+            $staticGenerator->savePage($page);
+        });
+    }
+}
