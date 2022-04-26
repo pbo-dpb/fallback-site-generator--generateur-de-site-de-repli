@@ -15,7 +15,8 @@
       <li role="separator"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-2 h-2 text-gray-800"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></li>
     <li>
     
-    {% if not loop.last %}<a href="{{ link }}" class="text-blue-800 underline">{{ title }}</a>
+    {% if not loop.last and link %}
+    <a href="{{ link }}" class="text-blue-800 underline">{{ title }}</a>
     {% else %}
     {{ title }}
     {% endif %}

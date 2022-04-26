@@ -14,9 +14,14 @@ class GenerateCmsPages extends OpboAbstractGenerator
             $strings = $staticGenerator->translator->getTranslations($language);
 
             $title = data_get($page, 'title_' . $language);
-            $breadcrumbs = [
-                $title => "/" . $language . "/" . data_get($page, 'slug'),
-            ];
+
+            $breadcrumbs = [];
+
+            if (data_get($page, "cms_section")) {
+                $breadcrumbs[data_get($page, "cms_section.title_" . $language)] = null;
+            }
+
+            $breadcrumbs[$title] = "/" . $language . "/" . data_get($page, 'slug');
 
             $blocks = $page->render($language);
             $payload = $this->twig->render('cmspage.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'blocks'));
