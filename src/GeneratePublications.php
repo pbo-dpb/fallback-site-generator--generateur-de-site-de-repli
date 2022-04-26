@@ -89,7 +89,12 @@ class GeneratePublications  extends OpboAbstractGenerator
                 $strings = $staticGenerator->translator->getTranslations($language);
                 $type = $strings[data_get($publication, 'type')];
                 $title = data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', '');
-                $abstract = $converter->convert(data_get($publication, 'metadata.abstract_' . $language, ''));
+                if ($abs = data_get($publication, 'metadata.abstract_' . $language)) {
+                    $abstract = $converter->convert($abs);
+                } else {
+                    $abstract = null;
+                }
+
 
                 $artifact = data_get($publication, "artifact.main." . $language . ".public");
 
@@ -104,7 +109,10 @@ class GeneratePublications  extends OpboAbstractGenerator
                     $fiscalYearTitle => "/" . $language . "/publications/" . data_get($publication, 'type') . "-" . $fiscalYear . ".html",
                     $title => "/" . $language . "/publications/" . data_get($publication, 'slug')
                 ];
-                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact"));
+
+                $files = $publication->getFiles($language);
+
+                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact", "files"));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
             });
         })->sortByDesc("release_date")->groupBy(function ($publication) {

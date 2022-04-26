@@ -23,8 +23,8 @@ $client = new \Aws\S3\S3Client([
 collect([
     "CopyStaticAssets",
     "GenerateCmsPages",
-    //"GeneratePublications",
-    "GenerateBlogs",
+    "GeneratePublications",
+    //"GenerateBlogs",
     //'GenerateIrs',
     //"GenerateEpcPortal",
     "GenerateGlue"
