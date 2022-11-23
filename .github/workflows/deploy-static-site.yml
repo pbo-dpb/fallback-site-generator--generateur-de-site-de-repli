@@ -1,6 +1,8 @@
 name: Deploy static site
-on: [workflow_dispatch]
-jobs: 
+on:
+  schedule:
+    - cron: '20 9,15 * * *'
+jobs:
   run-main-exporter-php:
     runs-on: ubuntu-latest
     steps:
