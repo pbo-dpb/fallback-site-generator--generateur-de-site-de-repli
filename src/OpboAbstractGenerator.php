@@ -1,6 +1,6 @@
 <?php
 
-
+#[AllowDynamicProperties]
 class OpboAbstractGenerator
 {
     protected $twig, $strings;

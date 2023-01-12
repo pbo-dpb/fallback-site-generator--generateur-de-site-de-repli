@@ -1,15 +1,15 @@
 {
     "require": {
-        "twig/twig": "^3.0",
-        "aws/aws-sdk-php": "^3.220",
-        "vlucas/phpdotenv": "^5.4",
-        "illuminate/collections": "^9.9",
-        "laravel/helpers": "^1.5",
+        "twig/twig": "^3.5",
+        "aws/aws-sdk-php": "^3.256.2",
+        "vlucas/phpdotenv": "^5.5",
+        "illuminate/collections": "^9.47",
+        "laravel/helpers": "^1.6",
         "league/commonmark": "^2.3",
-        "twig/intl-extra": "^3.3",
-        "twig/extra-bundle": "^3.3"
+        "twig/intl-extra": "^3.5",
+        "twig/extra-bundle": "^3.5"
     },
     "require-dev": {
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.2.3"
     }
 }

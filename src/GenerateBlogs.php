@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Collection;
-use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class GenerateBlogs  extends OpboAbstractGenerator
 {

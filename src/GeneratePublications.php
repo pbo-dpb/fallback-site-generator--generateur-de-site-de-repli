@@ -90,7 +90,7 @@ class GeneratePublications  extends OpboAbstractGenerator
                 $type = $strings[data_get($publication, 'type')];
                 $title = data_get($publication, $language === 'fr' ? 'title_fr' : 'title_en', '');
                 if ($abs = data_get($publication, 'metadata.abstract_' . $language)) {
-                    $abstract = $converter->convert($abs);
+                    $abstract = $converter->convert($abs ?: '');
                 } else {
                     $abstract = null;
                 }

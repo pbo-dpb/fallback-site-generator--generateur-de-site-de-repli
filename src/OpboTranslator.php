@@ -1,6 +1,6 @@
 <?php
 
-
+#[AllowDynamicProperties]
 class OpboTranslator
 {
     protected array $sourceTranslations;

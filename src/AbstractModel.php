@@ -4,6 +4,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 
+#[AllowDynamicProperties]
 class AbstractModel
 {
     function __construct(string $jsonPayload)
@@ -28,7 +29,7 @@ class AbstractModel
             'allow_unsafe_links' => false,
         ]);
 
-        $content = $converter->convert($rawContent);
+        $content = $converter->convert($rawContent ?: '');
         return $content ? $this->renderBlock($content) : null;
     }
 
