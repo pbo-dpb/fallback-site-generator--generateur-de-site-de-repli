@@ -111,7 +111,11 @@ class GeneratePublications  extends OpboAbstractGenerator
 
                 $files = $publication->getFiles($language);
 
-                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact", "files"));
+                $pboml = data_get($publication, "pboml_document.yaml");
+                if ($pboml)
+                    $pboml = "data:text/yaml;base64," . base64_encode($pboml);
+                
+                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact", "files", "pboml"));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
             });
         })->sortByDesc("release_date")->groupBy(function ($publication) {

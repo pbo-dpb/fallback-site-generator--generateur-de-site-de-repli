@@ -19,6 +19,11 @@
 </div>
 {% endif %}
 
+{% if pboml %}
+<div class="border-t border-gray-300 pt-4">
+{% include '_pboml.twig' with {'pboml': pboml} %}
+</div>
+{% endif %}
 
 {% include '_files.twig' with {'files': files} %}
 
