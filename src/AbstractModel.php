@@ -14,16 +14,16 @@ class AbstractModel
     }
 
 
-    protected function renderBlock(string $html)
+    protected function renderBlock(array|string $content, string $twview='block.twig')
     {
         $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../twig');
         $twig = new \Twig\Environment($loader);
-        return $twig->render('block.twig', compact('html'));
+        return $twig->render($twview, (is_array($content) ? $content : ['html'=>$content]));
     }
 
     protected function renderMarkdownBlock($block, string $language): ?string
     {
-        $rawContent = data_get($block, 'payload_' . $language, data_get($block, 'payload'));
+        $rawContent = data_get($block, 'payload_' . $language) ?: data_get($block, 'payload');
         $converter = new GithubFlavoredMarkdownConverter([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
@@ -33,15 +33,29 @@ class AbstractModel
         return $content ? $this->renderBlock($content) : null;
     }
 
+
+    protected function renderPbomlBlock($block, string $language): ?string
+    {
+        $rawContent = data_get($block, 'payload_' . $language) ?: data_get($block, 'payload');
+        $content = null;
+        
+        if ($rawContent) {
+            $rawContent = "data:text/yaml;base64," . base64_encode($rawContent);
+            $content = $this->renderBlock(['pboml'=>$rawContent], '_pboml.twig');
+        }
+            
+        return $content ? $this->renderBlock($content) : null;
+    }
+
     protected function renderHtmlBlock($block, string $language): ?string
     {
-        $rawContent = data_get($block, 'payload_' . $language, data_get($block, 'payload'));
+        $rawContent = data_get($block, 'payload_' . $language) ?: data_get($block, 'payload');
         return $rawContent ? $this->renderBlock($rawContent) : null;
     }
 
     protected function renderableBlocks(): Collection
     {
-        return collect($this->blocks ?: [])->whereIn('type_major', ['html', 'markdown']);
+        return collect($this->blocks ?: [])->whereIn('type_major', ['html', 'markdown', 'pboml']);
     }
 
     public function hasRenderableBlocks(): bool
