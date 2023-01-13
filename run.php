@@ -27,6 +27,7 @@ collect([
     "GenerateBlogs",
     'GenerateIrs',
     "GenerateEpcPortal",
+    "GenerateResearchTools",
     "GenerateGlue"
 ])->reduce(function ($carry, $className) use ($client) {
     $carry[$className] = (new $className($client, $carry))->run();

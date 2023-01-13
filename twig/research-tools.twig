@@ -1,0 +1,42 @@
+{% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/research--recherches/tools--outils/' %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h1 class="leading-none font-thin text-4xl">
+{{ title }}
+</h1>
+
+<ul class="flex flex-col gap-4">
+{% for tool in tools %}
+
+
+
+
+<!-- ResearchTool:start -->
+<li class="border-b border-gray-300 last:border-b-0 pb-4 last:pb-0">
+<a href="/{{ language }}/research--recherches/tools--outils/{{ tool.slug }}/index" class="flex flex-col gap-2 ">
+<span class="underline text-blue-800 font-semibold">
+    {% if language == 'fr' %}
+    {{ tool.name_fr }}
+    {% else %}
+    {{ tool.name_en }}
+    {% endif %}
+</span>
+
+    {% if language == 'fr' and tool.description_fr %}
+    <span class="text-sm">{{ tool.description_fr }}</span>
+    {% elseif language == 'en' and tool.description_en %}
+    <span class="text-sm">{{ tool.description_en }}</span>
+    {% endif %}
+
+</a>
+</li>
+<!-- ResearchTool:stop -->
+
+
+
+
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -8,6 +8,17 @@ return [
         "en" => "The Parliamentary Budget Officer provides independent analysis on the state of the nation's finances, the government's estimates and trends in the Canadian economy; and upon request, estimates the cost of any proposal under Parliament's jurisdiction.",
         "fr" => "Le directeur parlementaire du budget produit des analyses indépendantes portant sur l’état des finances publiques, les prévisions budgétaires du gouvernement et les tendances observées dans l’économie canadienne, et, sur demande, il estime le coût de toute proposition concernant des questions qui sont du ressort du Parlement."
     ],
+
+    "research_tools"=>[
+        "en"=>"Tools",
+        "fr"=>"Outils"
+    ],
+
+    "research_tool_unavailable"=>[
+        "en"=>"This tool is not currently available.",
+        "fr"=>"Cet outil n'est pas disponible actuellement."
+    ],
+    
     "irs" => [
         "en" => "Information Requests",
         "fr" => "Demandes d'information"
