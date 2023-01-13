@@ -30,7 +30,11 @@ class GenerateEpcPortal extends OpboAbstractGenerator
                 'pdf' => data_get($costing, 'artifacts.main.' . $language . ".public"),
             ];
 
-            $payload = $this->twig->render('epccosting.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'epc'));
+            $pboml = data_get($costing, "pboml_document.yaml");
+                if ($pboml)
+                    $pboml = "data:text/yaml;base64," . base64_encode($pboml);
+
+            $payload = $this->twig->render('epccosting.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'epc', 'pboml'));
             $staticGenerator->saveStaticHtmlFile($language . '/epc-estimates--estimations-cpe/' . $occurence->id . "/" . $costing->internal_id, $payload);
         });
     }
