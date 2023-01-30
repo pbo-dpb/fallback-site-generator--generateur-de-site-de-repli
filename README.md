@@ -1,3 +1,7 @@
+> To learn how to update the fallback site, [visit the wiki](https://github.com/pbo-dpb/fallback-site-generator--generateur-de-site-de-repli/wiki)
+> 
+> Pour savoir comment mettre à jour le site de repli, [visitez le wiki] (https://github.com/pbo-dpb/fallback-site-generator--generateur-de-site-de-repli/wiki)
+
 # English
 
 ## Purpose
