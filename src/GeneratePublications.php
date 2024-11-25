@@ -95,8 +95,14 @@ class GeneratePublications  extends OpboAbstractGenerator
                     $abstract = null;
                 }
 
+                $highlights = collect(data_get($publication, "metadata.highlights", []))->map(function($bil) use ($language) {
+                    return data_get($bil, "content." . $language);
+                })->filter()->toArray();
+
 
                 $artifact = data_get($publication, "artifacts.main." . $language . ".public");
+
+                $canonical = data_get($publication, "permalinks." . $language . ".website");
 
                 $re = '/^[A-Z]+-(\d{4})-(\d{3})/m';
                 preg_match_all($re, $publication->internal_id, $matches, PREG_SET_ORDER, 0);
@@ -115,7 +121,7 @@ class GeneratePublications  extends OpboAbstractGenerator
                 if ($pboml)
                     $pboml = "data:text/yaml;base64," . base64_encode($pboml);
                 
-                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact", "files", "pboml"));
+                $payload = $this->twig->render('publication.twig', compact('title', 'abstract', 'highlights', 'publication', 'language', 'strings', 'type', 'breadcrumbs', "artifact", "files", "pboml", "canonical"));
                 $staticGenerator->saveStaticHtmlFile($language . '/publications/' . $publication->slug, $payload);
             });
         })->sortByDesc("release_date")->groupBy(function ($publication) {

@@ -1,4 +1,4 @@
-<ul  class="flex flex-col gap-4 lg:gap-1">
+<ul  class="flex flex-col gap-4 lg:gap-1 border-l-2 border-sky-100 pl-2">
 {% for file in files %}
     <li class="odd:bg-white even:bg-slate-100 text-sm flex flex-col lg:grid lg:grid-cols-2 gap-1 py-1">
     <a href="{{ file.url }}" class="font-semibold underline text-blue-800">{{ file.name }} ({{file.extension}})</a>
