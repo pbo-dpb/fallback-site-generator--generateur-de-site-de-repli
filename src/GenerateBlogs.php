@@ -29,7 +29,9 @@ class GenerateBlogs  extends OpboAbstractGenerator
                 "blocks" => $blog->renderBlocks($language)
             ];
 
-            $payload = $this->twig->render('blog.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'adan'));
+            $canonical = data_get($blog, "permalinks." . $language . ".website");
+
+            $payload = $this->twig->render('blog.twig', compact('title', 'language', 'strings', 'breadcrumbs', 'adan', 'canonical'));
             $staticGenerator->saveStaticHtmlFile($language . '/additional-analyses--analyses-complementaires/' . $blog->slug, $payload);
         });
     }

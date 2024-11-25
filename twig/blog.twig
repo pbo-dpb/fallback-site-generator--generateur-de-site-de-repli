@@ -1,5 +1,12 @@
 {% set langalt = '/' ~ (language == 'en' ? 'fr' : 'en') ~ '/additional-analyses--analyses-complementaires/' ~ adan.slug %}
 {% extends "base.twig" %}
+
+{% block meta %}
+    {% if canonical %}
+        <link rel="canonical" href="{{ canonical }}" />
+    {% endif %}
+{% endblock %}
+
 {% block content %}
 
 <h1 class="leading-none font-thin text-4xl">
